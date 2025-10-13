@@ -1,1 +1,14 @@
-
+[
+    {
+        "pergunta":"Oque sobra para o betinha?",
+        "resposta":"Nada"
+    },
+    {
+        "pergunta":"Como está essa tal de pista?",
+        "resposta":"Pista ta salgada"
+    },
+    {
+        "pergunta":"Engole o choro e...",
+        "resposta":"Faz o L"
+    }
+]
