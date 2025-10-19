@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <input type="text" id="codigo" placeholder="Código">
+    <button onclick="buscar()">Buscar</button><br>
+
+    <textarea id="pergunta" style="display:none"></textarea><br>
+    <button onclick="salvar()" style="display:none">Salvar</button>
+
+    <div id="msg"></div>
+
+    <script>
+        function buscar() {
+            let codigo = document.getElementById('codigo').value;
+            
+            fetch('buscar.php?codigo=' + codigo)
+            .then(r => r.json())
+            .then(d => {
+                if(d.pergunta) {
+                    document.getElementById('pergunta').value = d.pergunta;
+                    document.getElementById('pergunta').style.display = 'block';
+                    document.querySelector('button[onclick="salvar()"]').style.display = 'block';
+                    document.getElementById('msg').innerHTML = '';
+                } else {
+                    document.getElementById('msg').innerHTML = 'Não encontrado';
+                }
+            });
+        }
+
+        function salvar() {
+            let codigo = document.getElementById('codigo').value;
+            let pergunta = document.getElementById('pergunta').value;
+            
+            fetch('salvar.php', {
+                method: 'POST',
+                body: 'codigo=' + codigo + '&pergunta=' + pergunta
+            })
+            .then(r => r.json())
+            .then(d => {
+                document.getElementById('msg').innerHTML = d.ok ? 'Salvo!' : 'Erro';
+            });
+        }
+    </script>
+</body>
+</html>
