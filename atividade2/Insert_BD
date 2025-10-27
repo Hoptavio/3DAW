@@ -1,0 +1,30 @@
+<?php
+  //Usando banco de dados para guardar as perguntas inseridas,inclementar função na antiga AV1
+  $servidor="localhost"
+  $username="root"
+  $pass="";
+  $dataBase="Meu_Banco";
+  $conection= new mysql($servidor,$username,$pass,$dataBase);
+  if($conection->connect_error){
+    die("Erro em estabelecer a conexão");
+  }
+  if($_SERVER['REQUEST METHOD']=='POST'){
+    $id = $_POST["id"];
+    $tipo = $_POST["tipo"];
+    $pergunta = $_POST["pergunta"];
+    $gabarito = $_POST["gabarito"];
+        $comandoSQL = "INSERT INTO `Perguntas`(`id`, `tipo`, `pergunta`,`gabarito`) VALUES ('" $id. 
+            $tipo . "'," . $pergunta . ",'" . $gabarito ."' )";
+        $resultado = $conn->query($comandoSQL);
+      $msg = "Pergunta incluida com sucesso";
+   
+   if ($resultado=true){
+      $retorno=json_encode($msg);
+  } else {
+      $retorno=json_encode("ERROR");
+  }
+
+  echo $retorno;
+  }
+
+?>
