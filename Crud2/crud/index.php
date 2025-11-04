@@ -1,4 +1,5 @@
 <?php 
+  session_start();
   require 'conexao.php';
 ?>
 <!doctype html>
@@ -12,6 +13,7 @@
   <body>
     <?php include('navbar.php');?>
     <div class="container mt-4">
+      <?php include('mensagem.php');?>
       <div class="row">
         <div class="col-md-12">
           <div class="card">
@@ -21,7 +23,7 @@
             </h4>
             </div>
             <div class="card-body">
-              <table class="table table-borded  table-striped">
+              <table class="table table-bordered  table-striped">
                 <thead>
                   <tr>
                     <th>Matricula</th>
@@ -30,18 +32,31 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php 
+                    $sql = 'SELECT * FROM alunos';
+                    $alunos = mysqli_query($conexao,$sql);
+                    if(mysqli_num_rows($alunos)>0){
+                      foreach($alunos as $aluno){
+                  ?>
                   <tr>
-                    <td>54321</td>
-                    <td>Otavio Augusto</td>
-                    <td>Email@email.com</td>
+                    <td><?=$aluno['matricula']?></td>
+                    <td><?=$aluno['nome']?></td>
+                    <td><?=$aluno['email']?></td>
                     <td>
-                      <a href="" class="btn btn-secondary btn-sm">Visualizar</a>
-                      <a href="" class="btn btn-success btn-sm">Editar</a>
-                      <form action="" method="POST" class="d-inline">
-                        <button type="submit" name="delete-usuario" value="1" class="btn btn-danger btn-sm">Excluir</button>
+                      <a href="usuario-view.php?matricula=<?=$aluno['matricula']?>" class="btn btn-secondary btn-sm">Visualizar</a>
+                      <a href="usuario-edit.php?matricula=<?=$aluno['matricula']?>" class="btn btn-success btn-sm">Editar</a>
+                      <form action="acoes.php" method="POST" class="d-inline">
+                        <button onclick="return confirm('Deseja excluir esse usuário?')" type="submit"                  name="delete-usuario" value="<?=$aluno['matricula']?>" class="btn btn-danger btn-sm">Excluir
+                        </button>
                       </form>
                     </td>
                   </tr>
+                  <?php 
+                    }
+                    }else{
+                      echo '<h5>Nenhum usuário encontrado</h5>';
+                    };
+                  ?>
                 </tbody>
               </table>
             </div>
